@@ -1,18 +1,18 @@
-from aiogram.types import ReplyKeyboardMarkup,KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-main = ReplyKeyboardMarkup(resize_keyboard=True,row_width=1).add(
+main = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1).add(
     KeyboardButton("💬 Начать общаться"),
     KeyboardButton("👻 Сгенерировать картинку"),
     KeyboardButton("😈 Наши проекты"),
 )
-chat = ReplyKeyboardMarkup(resize_keyboard=True,row_width=1).add(
+chat = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1).add(
     KeyboardButton("🔁Сбросить контекст"),
     KeyboardButton("◀️Назад")
 )
-image_generate = ReplyKeyboardMarkup(resize_keyboard=True,row_width=1).add(
+image_generate = ReplyKeyboardMarkup(resize_keyboard=True, row_width=1).add(
     KeyboardButton("◀️Назад")
 )
-admin = ReplyKeyboardMarkup(resize_keyboard=True,row_width=2).add(
+admin = ReplyKeyboardMarkup(resize_keyboard=True, row_width=2).add(
     KeyboardButton("💬Рассылка"),
     KeyboardButton("📊Статистика"),
     KeyboardButton("🔃Выгрузить дб"),

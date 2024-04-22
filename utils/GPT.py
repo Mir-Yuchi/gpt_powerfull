@@ -3,7 +3,8 @@ from data import config as cfg
 import asyncio
 from utils.db_api import database as db
 
-async def ask(question,api_key,old):
+
+async def ask(question, api_key, old):
     response = await openai_async.chat_complete(
         api_key,
         timeout=300,
@@ -20,7 +21,8 @@ async def ask(question,api_key,old):
             db.delete_token_from_file(api_key)
         return 0
 
-async def davinci(request,api_key,size):
+
+async def davinci(request, api_key, size):
     response = await openai_async.generate_img(
         api_key,
         timeout=200,
@@ -31,4 +33,3 @@ async def davinci(request,api_key,size):
         },
     )
     return response.json()["data"][0]["url"]
-

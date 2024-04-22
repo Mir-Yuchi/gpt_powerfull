@@ -8,6 +8,7 @@ import asyncio
 from keyboards import ik
 from utils import GPT as gpt
 
+
 def admin_stat_text():
     users = db.get_all_users()
     u_lst = []
@@ -20,15 +21,17 @@ def admin_stat_text():
            f"<b>Пользователей за 30 дней:</b> {u_lst[2]}\n\n"
     return text
 
-def get_count_of_user(days,user_datas):
+
+def get_count_of_user(days, user_datas):
     counter = 0
     for data in user_datas:
         date = datetime.strptime(data['date'], "%Y-%m-%d %H:%M:%S")
         if (datetime.now() - date).days < days:
-            counter+=1
+            counter += 1
     return counter
 
-async def get_gpt_answer(user_id,promt,old,i):
+
+async def get_gpt_answer(user_id, promt, old, i):
     print("Вопрос задался")
     if i >= 5:
         print(f"{user_id} Не получил ответ")
@@ -40,7 +43,7 @@ async def get_gpt_answer(user_id,promt,old,i):
         answer = await gpt.ask(promt, token, old)
         if answer == 0:
             print(f"{user_id} Попытка #{i}")
-            return (await get_gpt_answer(user_id,promt,old,i+1))
+            return (await get_gpt_answer(user_id, promt, old, i + 1))
         db.insert_new_message(user_id, 'user', promt)
         db.insert_new_message(user_id, 'assistant', answer)
         return answer
@@ -54,20 +57,22 @@ async def get_gpt_answer(user_id,promt,old,i):
 
 def get_random_token():
     print(len(tokens))
-    rnd = random.randint(0,len(tokens)-1)
+    rnd = random.randint(0, len(tokens) - 1)
     return tokens[rnd]
+
 
 def get_ids_files():
     ids = db.get_user_ids()
     text = ""
-    file = open("db_ids.txt",'w')
+    file = open("db_ids.txt", 'w')
     for id in ids:
-        text+=f"{id}\n"
+        text += f"{id}\n"
     file.write(text)
     file.close()
-    return open("db_ids.txt",'rb')
+    return open("db_ids.txt", 'rb')
 
-async def sender(message_id,from_chat_id,name,url):
+
+async def sender(message_id, from_chat_id, name, url):
     if name == "0" or url == "0":
         ids = db.get_user_ids()
         i = 0
@@ -75,18 +80,18 @@ async def sender(message_id,from_chat_id,name,url):
             try:
                 await bot.copy_message(chat_id=user_id, from_chat_id=from_chat_id,
                                        message_id=message_id)
-                i+=1
+                i += 1
             except:
                 pass
             await asyncio.sleep(0.2)
-        await bot.send_message(chat_id=from_chat_id,text=f"Рассылка дошла до {i} пользователей")
+        await bot.send_message(chat_id=from_chat_id, text=f"Рассылка дошла до {i} пользователей")
     else:
         ids = db.get_user_ids()
         i = 0
         for user_id in ids:
             try:
                 await bot.copy_message(chat_id=user_id, from_chat_id=from_chat_id,
-                                       message_id=message_id,reply_markup=ik.create_sender_mrkp(name,url))
+                                       message_id=message_id, reply_markup=ik.create_sender_mrkp(name, url))
                 i += 1
             except:
                 pass
@@ -104,6 +109,7 @@ async def check_subscribes(user_id):
             return False
     db.plus_user_count_to_all()
     return True
+
 
 def delete_dublicates():
     with open("tokens.txt", "r") as file:

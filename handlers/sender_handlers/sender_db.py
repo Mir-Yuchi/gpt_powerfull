@@ -1,7 +1,4 @@
-from utils.db_api.database import conn,cur
-
-
-
+from utils.db_api.database import conn, cur
 
 cur.execute("""CREATE TABLE IF NOT EXISTS sender_handlers(
     id INT DEFAULT 0,
@@ -22,17 +19,21 @@ def refresh_db():
     cur.execute("UPDATE sender_handlers SET photo_id = NULL WHERE id = 0")
     conn.commit()
 
+
 def set_text(text):
-    cur.execute("UPDATE sender_handlers SET text = ? WHERE id = 0",(text,))
+    cur.execute("UPDATE sender_handlers SET text = ? WHERE id = 0", (text,))
     conn.commit()
+
 
 def set_videoId(videoId):
-    cur.execute("UPDATE sender_handlers SET video_id = ? WHERE id = 0",(videoId,))
+    cur.execute("UPDATE sender_handlers SET video_id = ? WHERE id = 0", (videoId,))
     conn.commit()
 
+
 def set_photoId(photoId):
-    cur.execute("UPDATE sender_handlers SET photo_id = ? WHERE id = 0",(photoId,))
+    cur.execute("UPDATE sender_handlers SET photo_id = ? WHERE id = 0", (photoId,))
     conn.commit()
+
 
 def get_sender_data():
     crtj = cur.execute("SELECT * FROM sender_handlers WHERE id = 0").fetchone()
@@ -44,5 +45,5 @@ def get_sender_data():
     text = crtj[1]
     video_id = crtj[2]
     photo_id = crtj[3]
-    d = {'id':id,'text':text,'video_id':video_id,'photo_id':photo_id}
+    d = {'id': id, 'text': text, 'video_id': video_id, 'photo_id': photo_id}
     return d

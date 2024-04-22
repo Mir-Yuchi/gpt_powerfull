@@ -1,5 +1,6 @@
 from utils.db_api import database as db
 
+
 def adv_chat_stat(chat_id):
     data = db.get_adv_chat(chat_id)
     return f"Канал: <b>{data['name']}</b>\n" \

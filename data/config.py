@@ -12,4 +12,3 @@ image = "https://forbes.ua/static/storage/thumbs/1200x630/a/cc/88089e70-b688f051
 f = open('tokens.txt', 'r')
 tokens = f.read().split("\n")
 f.close()
-

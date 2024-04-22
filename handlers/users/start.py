@@ -10,16 +10,16 @@ from handlers.users import misc as ms
 
 
 @dp.message_handler(CommandStart(), chat_type=types.ChatType.PRIVATE)
-async def bot_start(message: types.Message, state:FSMContext):
+async def bot_start(message: types.Message, state: FSMContext):
+    db.create_user(message.from_user.id, message.from_user.username)
+    sub_status = await ms.check_subscribes(message.from_user.id)
 
-	db.create_user(message.from_user.id,message.from_user.username)
-	sub_status = await ms.check_subscribes(message.from_user.id)
-	
-	if sub_status == False:
-		return await message.answer("Подпишитесь на каналы ниже, чтобы продолжать использовать Chat GPT.\n"
-			"<b>Благодаря этому бот остаётся полностью бесплатным!</b>",reply_markup=ik.adv_chats())
-        
+    if sub_status == False:
+        return await message.answer("Подпишитесь на каналы ниже, чтобы продолжать использовать Chat GPT.\n"
+                                    "<b>Благодаря этому бот остаётся полностью бесплатным!</b>",
+                                    reply_markup=ik.adv_chats())
 
-	image = cfg.image
-	await message.answer_photo(photo=image,caption=f"Привет, <b>{message.from_user.full_name}!</b>\n"
-		f"Я бесплатный <b>Chat-GPT бот</b>, работающий на последней версии нейросети Open AI.",reply_markup=kb.main)
+    image = cfg.image
+    await message.answer_photo(photo=image, caption=f"Привет, <b>{message.from_user.full_name}!</b>\n"
+                                                    f"Я бесплатный <b>Chat-GPT бот</b>, работающий на последней версии нейросети Open AI.",
+                               reply_markup=kb.main)
